@@ -33,6 +33,66 @@ export const addUser = async (formData) => {
   redirect("/dashboard/users");
 };
 
+export const updateUser = async (formData) => {
+  const { id, username, email, password, isAdmin } =
+    Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    // update those fields only which are edited.
+    const updateFields = {
+      username,
+      email,
+      password,
+      isAdmin,
+    };
+
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === "" || undefined) && delete updateFields[key]
+    );
+
+    await User.findByIdAndUpdate(id, updateFields);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update user!");
+  }
+
+  revalidatePath("/dashboard/users");
+  redirect("/dashboard/users");
+};
+
+export const updateProduct = async (formData) => {
+  const { id, title, costPrice, sellPrice, date } =
+    Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    // update those fields only which are edited.
+    const updateFields = {
+      title,
+      costPrice,
+      sellPrice,
+      date,
+    };
+
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === "" || undefined) && delete updateFields[key]
+    );
+
+    await Product.findByIdAndUpdate(id, updateFields);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update product!");
+  }
+
+  revalidatePath("/dashboard/products");
+  redirect("/dashboard/products");
+};
+
 export const addProduct = async (formData) => {
   const { title, costPrice, sellPrice, date } = Object.fromEntries(formData);
 
