@@ -8,11 +8,11 @@ const SingleProductPage = () => {
           <label>Date</label>
           <input type="date" name="date" />
           <label>Product Name</label>
-          <input type="text" name="productname" placeholder="Ghee" />
+          <input type="text" name="title" placeholder="Ghee" />
           <label>Cost Price</label>
-          <input type="text" name="costprice" placeholder="450" />
+          <input type="text" name="costPrice" placeholder="450" />
           <label>Sell Price</label>
-          <input type="text" name="sellprice" placeholder="480" />
+          <input type="text" name="sellPrice" placeholder="480" />
           <button>Update</button>
         </form>
       </div>

@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema(
 );
 const productSchema = mongoose.Schema(
   {
-    product: {
+    title: {
       type: String,
       required: true,
       unique: true,
