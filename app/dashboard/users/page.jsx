@@ -34,7 +34,7 @@ const UsersPage = async ({ searchParams }) => {
             <tr key={user.id}>
               <td>{user.username}</td>
               <td>{user.email}</td>
-              <td>{user.createdAt?.toString().slice(4, 20)}</td>
+              <td>{user.createdAt?.toLocaleString().slice(0, 9)}</td>
               <td>{user.isAdmin ? "Admin" : "Member"}</td>
               {/* <td></td> */}
               <td>

@@ -30,7 +30,7 @@ const ProductsPage = async ({ searchParams }) => {
         <tbody>
           {products.map((product) => (
             <tr key={product.id}>
-              <td>{product.date.toLocaleString().slice(0,9)}</td>
+              <td>{product.date.toLocaleString().slice(0, 9)}</td>
               <td>{product.title}</td>
               <td>{product.costPrice}</td>
               <td>{product.sellPrice}</td>
