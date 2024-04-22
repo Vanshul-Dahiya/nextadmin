@@ -4,10 +4,14 @@ import Link from "next/link";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import { fetchProducts } from "@/app/lib/data";
 import { deleteProduct } from "@/app/lib/actions";
+import { auth } from "@/app/auth";
 
 const ProductsPage = async ({ searchParams }) => {
   const q = searchParams?.q || "";
   const page = searchParams?.page || 1;
+
+  const { user } = await auth();
+  console.log(user);
 
   const { count, products } = await fetchProducts(q, page);
   return (
@@ -36,19 +40,23 @@ const ProductsPage = async ({ searchParams }) => {
               <td>{product.costPrice}</td>
               <td>{product.sellPrice}</td>
               <td>
-                <div className={styles.buttons}>
-                  <Link href={`/dashboard/products/${product.id}`}>
-                    <button className={`${styles.button} ${styles.view}`}>
-                      View
-                    </button>
-                  </Link>
-                  <form action={deleteProduct}>
-                    <input type="hidden" name="id" value={product.id} />
-                    <button className={`${styles.button} ${styles.delete}`}>
-                      Delete
-                    </button>
-                  </form>
-                </div>
+                {user.isAdmin ? (
+                  <div className={styles.buttons}>
+                    <Link href={`/dashboard/products/${product.id}`}>
+                      <button className={`${styles.button} ${styles.view}`}>
+                        View
+                      </button>
+                    </Link>
+                    <form action={deleteProduct}>
+                      <input type="hidden" name="id" value={product.id} />
+                      <button className={`${styles.button} ${styles.delete}`}>
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <span className={styles.span}>Restricted</span>
+                )}
               </td>
             </tr>
           ))}

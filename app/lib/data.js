@@ -7,7 +7,7 @@ export const fetchUsers = async (q, page) => {
   const regex = new RegExp(q, "i");
 
   // how many users on a page
-  const ITEM_PER_PAGE = 2;
+  const ITEM_PER_PAGE = 10;
   //  on page = 2    .skip(ITEM_PER_PAGE * (page - 1));
   // it will skip first 2 items(2 * (2-1)) and show rest no of users(Item_per_page)
 
@@ -38,7 +38,7 @@ export const fetchUser = async (id) => {
 export const fetchProducts = async (q, page) => {
   const regex = new RegExp(q, "i");
 
-  const ITEM_PER_PAGE = 2;
+  const ITEM_PER_PAGE = 10;
 
   try {
     connectToDB();

@@ -13,6 +13,8 @@ import {
   MdHelpCenter,
   MdLogout,
 } from "react-icons/md";
+import { auth, signOut } from "@/app/auth";
+import { fetchUser } from "@/app/lib/data";
 
 const menuItems = [
   {
@@ -33,51 +35,52 @@ const menuItems = [
         path: "/dashboard/products",
         icon: <MdShoppingBag />,
       },
-      {
-        title: "Transactions",
-        path: "/dashboard/transactions",
-        icon: <MdAttachMoney />,
-      },
+      // {
+      //   title: "Transactions",
+      //   path: "/dashboard",
+      //   icon: <MdAttachMoney />,
+      // },
     ],
   },
-  {
-    title: "Analytics",
-    list: [
-      {
-        title: "Revenue",
-        path: "/dashboard/revenue",
-        icon: <MdWork />,
-      },
-      {
-        title: "Reports",
-        path: "/dashboard/reports",
-        icon: <MdAnalytics />,
-      },
-      {
-        title: "Teams",
-        path: "/dashboard/teams",
-        icon: <MdPeople />,
-      },
-    ],
-  },
-  {
-    title: "User",
-    list: [
-      {
-        title: "Settings",
-        path: "/dashboard/settings",
-        icon: <MdOutlineSettings />,
-      },
-      {
-        title: "Help",
-        path: "/dashboard/help",
-        icon: <MdHelpCenter />,
-      },
-    ],
-  },
+  // {
+  //   title: "Analytics",
+  //   list: [
+  //     {
+  //       title: "Revenue",
+  //       path: "/dashboard",
+  //       icon: <MdWork />,
+  //     },
+  //     {
+  //       title: "Reports",
+  //       path: "/dashboard",
+  //       icon: <MdAnalytics />,
+  //     },
+  //     {
+  //       title: "Teams",
+  //       path: "/dashboard",
+  //       icon: <MdPeople />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "User",
+  //   list: [
+  //     {
+  //       title: "Settings",
+  //       path: "/dashboard",
+  //       icon: <MdOutlineSettings />,
+  //     },
+  //     {
+  //       title: "Help",
+  //       path: "/dashboard",
+  //       icon: <MdHelpCenter />,
+  //     },
+  //   ],
+  // },
 ];
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const { user } = await auth();
   return (
     <div className={styles.container}>
       <div className={styles.user}>
@@ -85,12 +88,12 @@ const Sidebar = () => {
           src="/noavatar.png"
           alt=""
           width="50"
-          height="40"
+          height="50"
           className={styles.userImage}
         />
         <div className={styles.userDetail}>
-          <span className={styles.username}>Jon</span>
-          <span className={styles.userTitle}>Admin</span>
+          <span className={styles.username}>{user.username}</span>
+          {/* <span className={styles.userTitle}>{user.isAdmin}</span> */}
         </div>
       </div>
       <ul className={styles.list}>
@@ -103,9 +106,16 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <button className={styles.logout}>
-        <MdLogout /> LogOut
-      </button>
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <button className={styles.logout}>
+          <MdLogout /> LogOut
+        </button>
+      </form>
     </div>
   );
 };
