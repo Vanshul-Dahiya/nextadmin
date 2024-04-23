@@ -35,8 +35,7 @@ export const addUser = async (formData) => {
 };
 
 export const updateUser = async (formData) => {
-  const { id, username, email, password, isAdmin } =
-    Object.fromEntries(formData);
+  const { id, username, email, isAdmin } = Object.fromEntries(formData);
 
   try {
     connectToDB();
@@ -45,7 +44,6 @@ export const updateUser = async (formData) => {
     const updateFields = {
       username,
       email,
-      password,
       isAdmin,
     };
 

@@ -18,9 +18,13 @@ const ProductsPage = async ({ searchParams }) => {
     <div className={styles.container}>
       <div className={styles.top}>
         <Search placeholder="Search for a Product" />
-        <Link href="/dashboard/products/add">
-          <button className={styles.addButton}>Add New</button>
-        </Link>
+        {user.isAdmin ? (
+          <Link href="/dashboard/products/add">
+            <button className={styles.addButton}>Add New</button>
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
       <table className={styles.table}>
         <thead>

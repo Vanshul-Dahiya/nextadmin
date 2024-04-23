@@ -22,8 +22,8 @@ const SingleUserPage = async ({ params }) => {
           <input type="text" name="username" placeholder={user.username} />
           <label>Email</label>
           <input type="email" name="email" placeholder={user.email} />
-          <label>Password</label>
-          <input type="password" name="password" />
+          {/* <label>Password</label>
+          <input type="password" name="password" /> */}
           <label>Is Admin?</label>
           <select name="isAdmin" id="isAdmin">
             <option value={true} selected={user.isAdmin}>

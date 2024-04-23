@@ -4,20 +4,27 @@ import Link from "next/link";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import { fetchUsers } from "@/app/lib/data";
 import { deleteUser } from "@/app/lib/actions";
+import { auth } from "@/app/auth";
 
 const UsersPage = async ({ searchParams }) => {
   const q = searchParams?.q || "";
   const page = searchParams?.page || 1;
 
   const { count, users } = await fetchUsers(q, page);
+  const { user: ur } = await auth();
+  console.log(ur);
 
   return (
     <div className={styles.container}>
       <div className={styles.top}>
         <Search placeholder="Search for a User" />
-        <Link href="/dashboard/users/add">
-          <button className={styles.addButton}>Add New</button>
-        </Link>
+        {ur.isAdmin ? (
+          <Link href="/dashboard/users/add">
+            <button className={styles.addButton}>Add New</button>
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
       <table className={styles.table}>
         <thead>
@@ -39,19 +46,23 @@ const UsersPage = async ({ searchParams }) => {
               <td>{user.isAdmin ? "Admin" : "Member"}</td>
               {/* <td></td> */}
               <td>
-                <div className={styles.buttons}>
-                  <Link href={`/dashboard/users/${user.id}`}>
-                    <button className={`${styles.button} ${styles.view}`}>
-                      View
-                    </button>
-                  </Link>
-                  <form action={deleteUser}>
-                    <input type="hidden" name="id" value={user.id} />
-                    <button className={`${styles.button} ${styles.delete}`}>
-                      Delete
-                    </button>
-                  </form>
-                </div>
+                {ur.isAdmin ? (
+                  <div className={styles.buttons}>
+                    <Link href={`/dashboard/users/${user.id}`}>
+                      <button className={`${styles.button} ${styles.view}`}>
+                        View
+                      </button>
+                    </Link>
+                    <form action={deleteUser}>
+                      <input type="hidden" name="id" value={user.id} />
+                      <button className={`${styles.button} ${styles.delete}`}>
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <span className={styles.span}>Restricted</span>
+                )}
               </td>
             </tr>
           ))}
